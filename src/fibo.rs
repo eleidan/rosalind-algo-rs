@@ -1,22 +1,24 @@
-/// This function computes a fibonacci number
+use num::bigint::BigUint;
+
+/// This function computes Fibonacci number
 ///
 /// #Examples
 ///
 /// ```
 /// use rosalind_algo::fibo::fibonacci;
-/// println!("{}", fibonacci(25));
+/// assert_eq!(fibonacci(50).to_str_radix(10), "12586269025");
+/// println!("{}", fibonacci(50));
 /// ```
-pub fn fibonacci(n:usize) -> u64 {
-    const MAX_LENGTH: usize = 26;
-    let mut calculated_values:[u64; MAX_LENGTH] = [0; MAX_LENGTH];
+pub fn fibonacci(n:usize) -> BigUint {
+    let mut f0: BigUint = BigUint::new(vec!(0));
+    let mut f1: BigUint = BigUint::new(vec!(1));
 
-    calculated_values[1] = 1;
-
-    for i in 2..n+1 {
-        calculated_values[i] = calculated_values[i-1] + calculated_values[i-2];
+    for _ in 0..n {
+        let f2 = &f0 + &f1;
+        f0 = f1;
+        f1 = f2;
     }
-
-    calculated_values[n]
+    f0
 }
 
 #[cfg(test)]
@@ -25,13 +27,14 @@ mod tests {
 
     #[test]
     fn it_works() {
-        assert_eq!(fibonacci(0), 0);
-        assert_eq!(fibonacci(1), 1);
-        assert_eq!(fibonacci(2), 1);
-        assert_eq!(fibonacci(3), 2);
-        assert_eq!(fibonacci(4), 3);
-        assert_eq!(fibonacci(5), 5);
-        assert_eq!(fibonacci(6), 8);
-        assert_eq!(fibonacci(7), 13);
+        assert_eq!(fibonacci(0).to_str_radix(10), "0");
+        assert_eq!(fibonacci(1).to_str_radix(10), "1");
+        assert_eq!(fibonacci(2).to_str_radix(10), "1");
+        assert_eq!(fibonacci(3).to_str_radix(10), "2");
+        assert_eq!(fibonacci(4).to_str_radix(10), "3");
+        assert_eq!(fibonacci(5).to_str_radix(10), "5");
+        assert_eq!(fibonacci(6).to_str_radix(10), "8");
+        assert_eq!(fibonacci(7).to_str_radix(10), "13");
+        assert_eq!(fibonacci(50).to_str_radix(10), "12586269025");
     }
 }
